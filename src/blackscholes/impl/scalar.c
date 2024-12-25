@@ -12,6 +12,7 @@
 #include <math.h> 
 /* Include application-specific headers */
 #include "include/types.h"
+#include <stdio.h>
 
 #define inv_sqrt_2xPI 0.39894228040143270286
 
@@ -153,10 +154,19 @@ void* impl_scalar(void* args)
   float* otime = arguments->otime;
   char* otype = arguments->otype;
   float* output = arguments->output;
-  
+
   for (size_t i = 0; i < num_stocks; i++)
   {
     output[i] = blackScholes(sptPrice[i], strike[i], rate[i], volatility[i], otime[i], otype[i],0);
   }
+
+  // writing the results is only for testing purposes, must be commented when evaluating the implementation
+  FILE* file = fopen("scalar_output.csv", "w");
+  fprintf(file, "StockID,OptionPrice\n");
+  for (size_t i = 0; i < num_stocks; i++) {
+      fprintf(file, "%zu,%.6f\n", i, output[i]);
+  }
+  fclose(file);
+
 return output;  
 }
