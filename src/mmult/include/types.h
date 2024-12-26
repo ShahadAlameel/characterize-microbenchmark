@@ -24,6 +24,7 @@ typedef struct {
 
   int     cpu;
   int     nthreads;
+  int     tid;
 } args_t;
 
 #endif //__INCLUDE_TYPES_H_
