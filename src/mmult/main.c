@@ -276,6 +276,24 @@ int main(int argc, char** argv)
   byte* ref   = __ALLOC_INIT_DATA(byte, data_size+4);
   byte* dest  = __ALLOC_DATA     (byte, data_size+4);
 
+  float* fsrc1 = (float*)src1;
+  float* fsrc2 = (float*)src2;
+
+
+// Scale both matrices values to small values to avoid overflow
+  float scale_factor = 1.0f / (pow(10,15)); 
+
+  // Scale src1
+  for(int i = 0; i < m * p; i++) {
+      fsrc1[i] = (((fsrc1[i] / RAND_MAX) * 2.0f) - 1.0f) * scale_factor;
+  }
+
+  // Scale src2
+  for(int i = 0; i < p * n; i++) {
+      fsrc2[i] = (((fsrc2[i] / RAND_MAX) * 2.0f) - 1.0f) * scale_factor;
+  }
+
+
   // old code:
   // byte* src1  = __ALLOC_INIT_DATA(byte, data_size);
   // byte* src2  = __ALLOC_INIT_DATA(byte, data_size);
